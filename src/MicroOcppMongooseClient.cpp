@@ -718,8 +718,12 @@ void ws_cb(struct mg_connection *c, int ev, void *ev_data) {
         osock->updateRcvTimer();
     }
 
-    if (ev == MG_EV_ERROR || ev == MG_EV_CLOSE) {
-        MO_DBG_INFO("connection %s -- %s", osock->getUrl(), ev == MG_EV_CLOSE ? "closed" : "error");
+    if (ev == MG_EV_ERROR) {
+        MO_DBG_INFO("connection %s -- error", osock->getUrl());
+        MO_DBG_INFO("%p %s", c->fd, (char *) ev_data);
+    }
+    else if (ev == MG_EV_CLOSE) {
+        MO_DBG_INFO("connection %s -- closed", osock->getUrl());
         osock->cleanConnection();
     }
 }
